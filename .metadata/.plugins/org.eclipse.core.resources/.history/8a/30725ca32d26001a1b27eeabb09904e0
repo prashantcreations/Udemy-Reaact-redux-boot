@@ -1,0 +1,18 @@
+package com.example.demo.security;
+
+import org.springframework.security.core.Authentication;
+
+import com.example.demo.domain.User;
+
+public class JwtTokenProvider {
+	
+	// Generate the token
+	
+	public String generateTheToken(Authentication authentication){
+		User user = (User)authentication.getPrincipal();
+		Date date = new Date(System.currentTimeMillis());
+		
+		return null;
+	}
+
+}

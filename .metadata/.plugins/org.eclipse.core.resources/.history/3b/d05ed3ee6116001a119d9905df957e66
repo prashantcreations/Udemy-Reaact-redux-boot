@@ -1,0 +1,11 @@
+package com.example.demo.exception;
+
+public class ProjectIdExceptionResponse {
+	
+	private String projectIdentification;
+	
+	public ProjectIdExceptionResponse(String projectIdentification){
+		this.projectIdentification=projectIdentification;
+	}
+
+}

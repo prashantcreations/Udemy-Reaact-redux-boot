@@ -1,0 +1,9 @@
+package com.example.demo.security;
+
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class JwtAuthendicationEntryPoint implements AuthenticationEntryPoint {
+
+}

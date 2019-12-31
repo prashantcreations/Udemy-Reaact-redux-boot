@@ -1,0 +1,11 @@
+package com.example.demo.domain;
+
+import javax.persistence.Entity;
+
+@Entity
+public class BackLog {
+	@Id
+	private Long id;
+	
+
+}

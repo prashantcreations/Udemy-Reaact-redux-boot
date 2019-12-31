@@ -1,0 +1,73 @@
+package com.example.demo.services;
+
+import java.util.Iterator;
+
+import org.hibernate.sql.Update;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.domain.BackLog;
+import com.example.demo.domain.Project;
+import com.example.demo.exception.ProjectIdException;
+import com.example.demo.repository.ProjectRepository;
+
+@Service
+public class ProjectService {
+	
+	@Autowired
+	private ProjectRepository projectRepo; 
+	
+	
+	public Project createProject(Project project){
+		try {
+			
+			// for uppercase just we are again setting this 
+			project.setProjectIdentification(project.getProjectIdentification().toUpperCase());
+			
+			
+			//at the time of crate there will not any project id so 
+			
+			if(project.getId() == null) {
+				BackLog backlog = new BackLog();
+				project.setBacklog(backlog);
+				backlog.setProject(project);
+				backlog.setProjectIdentification(project.getProjectIdentification().toUpperCase());
+			}
+			
+			
+			return projectRepo.save(project);
+		
+		  }catch(Exception ex) { 
+			  throw new ProjectIdException("Project Id :- "+project.getProjectIdentification().toUpperCase()+" alredy exists "); }
+		} 
+	
+	public Project findByProjectIdentification(String projectId){
+		Project project = projectRepo.findByProjectIdentification(projectId.toUpperCase());
+		if(project==null) {
+			throw new ProjectIdException("Project Id :- "+ projectId +" do not exists "); 
+		}
+		return projectRepo.findByProjectIdentification(projectId.toUpperCase());
+	}
+	
+	public Iterable<Project> findAll() {
+		return projectRepo.findAll() ;
+	}
+	
+	public void deleteProjectById(String projectId) {
+		Project project = projectRepo.findByProjectIdentification(projectId.toUpperCase());
+		if(project==null) {
+			throw new ProjectIdException("Project Id :- "+ projectId +" do not exists "); 
+		}
+		projectRepo.delete(project);
+	}
+	
+	public void updateProjectById(Project updateProject) {
+		Project project = projectRepo.findByProjectIdentification(updateProject.getProjectIdentification().toUpperCase());
+		if(project==null) {
+			throw new ProjectIdException("Project Id :- "+ updateProject.getProjectIdentification().toUpperCase() +" do not exists "); 
+		}
+		project.setPrjectName(updateProject.getPrjectName());
+		project.setDesc(updateProject.getDesc());
+		projectRepo.save(project);
+	}
+}

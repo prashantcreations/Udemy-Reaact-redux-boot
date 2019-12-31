@@ -1,0 +1,35 @@
+package com.example.demo.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.domain.Project;
+import com.example.demo.exception.ProjectIdException;
+import com.example.demo.repository.ProjectRepository;
+
+@Service
+public class ProjectService {
+	
+	@Autowired
+	private ProjectRepository projectRepo; 
+	
+	
+	public Project createProject(Project project){
+		try {
+			project.setProjectIdentification(project.getProjectIdentification().toUpperCase());
+			return projectRepo.save(project);
+		
+		  }catch(Exception ex) { throw new
+		  ProjectIdException("Project Id :- "+project.getProjectIdentification().toUpperCase()+" alredy exists "); }
+		} 
+	
+	public Project findByProjectIdentification(String projectId){
+		return projectRepo.findByProjectIdentification(projectId);
+	}
+	
+	public List<Project> findAll() {
+		return projectRepo.findAll() ;
+	}
+}

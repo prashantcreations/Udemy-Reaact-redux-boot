@@ -1,0 +1,13 @@
+package com.example.demo.security;
+
+import org.springframework.security.core.Authentication;
+
+public class JwtTokenProvider {
+	
+	// Generate the token
+	
+	public String generateTheToken(Authentication authentication){
+		return null;
+	}
+
+}

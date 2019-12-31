@@ -1,0 +1,38 @@
+package com.example.demo.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.domain.User;
+import com.example.demo.exception.UserNameAlreadyExistException;
+import com.example.demo.repository.UserRepository;
+
+@Service
+public class UserService {
+	
+	@Autowired
+	private UserRepository userRepo;
+	@Autowired	
+	private BCryptPasswordEncoder bCryptPasswordEncoder;// for we have create a bean in mainclass
+	
+	
+	public boolean isUserExist(User user) {
+		
+		List<User> userList =userRepo.findByUserName(user.getUsername());
+		return false;
+	}
+	
+	public User saveUser(User user) {
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		isUserExist(user)
+		try {
+			return userRepo.save(user);
+		}catch(Exception ex) {
+			throw new UserNameAlreadyExistException("This User Alredy Exist. Please Try with Some Another Name");
+		}
+	}
+
+}

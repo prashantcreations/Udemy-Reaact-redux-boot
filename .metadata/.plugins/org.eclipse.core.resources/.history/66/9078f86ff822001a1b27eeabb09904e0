@@ -1,0 +1,10 @@
+package com.example.demo.exception;
+
+public class UserNameAlreadyExistExceptionResponse {
+	
+	private String userName;
+	
+	public UserNameAlreadyExistExceptionResponse(String userName){
+		this.userName = userName;
+	}
+}
