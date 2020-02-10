@@ -1,8 +1,0 @@
-spring.jpa.show-sql=true
-spring.jpa.database-platform=
-spring.jpa.properties.hibernate.dialect=
-spring.jpa.hibernate.ddl-auto=true
-
-spring.datasource.url=
-spring.datasource.username=
-spring.datasource.password=

@@ -1,0 +1,11 @@
+package com.example.demo.domain;
+
+import javax.persistence.Entity;
+
+@Entity
+public class User1 {
+	
+	int id ;
+	int name ;
+
+}

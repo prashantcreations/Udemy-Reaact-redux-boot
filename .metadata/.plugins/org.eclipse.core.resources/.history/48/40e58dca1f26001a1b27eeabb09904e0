@@ -1,7 +1,0 @@
-package com.example.demo.security;
-
-public class SecurityContant {
-	
-	public static final String SIGN_UP_URL="/api/user/**";
-
-}
