@@ -1,0 +1,9 @@
+package com.example.demo.security;
+
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories
+@EnableJpaAuditing
+public class AuditConfig {
+
+}

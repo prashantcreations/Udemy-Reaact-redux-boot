@@ -17,6 +17,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.example.demo.services.CustomUserDetailService;
 
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true,jsr250Enabled = true,prePostEnabled = true)
@@ -30,8 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	JwtAuthenticationFilter jwtAuthenticationFilter() {return new JwtAuthenticationFilter();}
-	
-	
+
 	
 	// authendicate the login details
 	@Override
@@ -47,7 +50,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return super.authenticationManager();
 	}
 
+    private static final String[] AUTH_WHITELIST = {
 
+            // -- swagger ui
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/v2/api-docs",
+            "/webjars/**"
+    };
 
 
 
@@ -60,6 +70,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.headers().frameOptions().sameOrigin()
 		.and()
 		.authorizeRequests()
+		.antMatchers("AUTH_WHITELIST").permitAll()
 		.antMatchers(
                 "/",
                 "/favicon.ico",
@@ -69,12 +80,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/**/*.jpg",
                 "/**/*.html",
                 "/**/*.css",
-                "/**/*.js"
-				).permitAll()
-				.antMatchers(com.example.demo.security.SecurityContant.SIGN_UP_URL).permitAll()
-				.antMatchers(com.example.demo.security.SecurityContant.H2_CONSOLE_URL).permitAll()
+                "/**/*.js",
+                "/*.html"
+				).permitAll().antMatchers(
+                        "/v2/api-docs",
+                        "/swagger-resources", 
+                       "/swagger-resources/configuration/ui", 
+                       "/swagger-resources/configuration/security")
+				.permitAll()
+				.antMatchers("/api/auth/**").permitAll()
+				//.antMatchers(com.example.demo.security.SecurityContant.SIGN_UP_URL).permitAll()
+				//.antMatchers(com.example.demo.security.SecurityContant.H2_CONSOLE_URL).permitAll()
 				.anyRequest().authenticated();
 		
-		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+		//http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 		}
+	
+
 }

@@ -28,6 +28,8 @@ public class CustomUserDetailService implements UserDetailsService{
 	public User loadUserById(Long Id) {
 		User user = userRepository.getById(Id);
 		if(user==null) new UsernameNotFoundException("User Not found");
+		// here we add roles
+		
 		return user;
 	}
 }

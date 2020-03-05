@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,6 +23,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -66,6 +70,14 @@ public class User implements UserDetails{
 	private Date update_at;
 	@OneToMany(cascade = CascadeType.REFRESH , fetch = FetchType.EAGER , mappedBy = "user" ,orphanRemoval = true)
 	private List<Project> projects = new ArrayList();
+	
+	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@JoinTable(name = "user_roles", joinColumns = 
+			{@JoinColumn(name="_id",nullable = false)},
+			inverseJoinColumns = {
+					@JoinColumn(name="roleId",nullable = false,updatable = true)
+			})
+	private Set<Role> role;
 
 	
 	
